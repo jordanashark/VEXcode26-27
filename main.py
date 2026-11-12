@@ -18,13 +18,11 @@ left_drive  = MotorGroup(l_front, l_mid, l_back)
 right_drive = MotorGroup(r_front, r_mid, r_back)
 four_bar = Motor(Ports.PORT9, GearSetting.RATIO_18_1, True)
 
-# ASSUMED: change ports/gearset/direction to match your robot.
-# If the claw closes when you press "open", flip the False to True.
 claw = Motor(Ports.PORT10, GearSetting.RATIO_18_1, False)
 imu = Inertial(Ports.PORT4)
 
 # =====================================================================
-# CONFIG  (all numbers below are STARTING VALUES - measure and tune)
+# CONFIG  
 # =====================================================================
 # --- driver control ---
 DEADBAND = 5
@@ -34,7 +32,7 @@ SPLIT_ARCADE = 1
 drive_mode = SINGLE_ARCADE
 DRIVER_SLEW_PER_S = 400.0      # %/s the stick command may rise (decel is instant)
 
-# --- drivetrain geometry (measure these!) ---
+# --- drivetrain geometry  ---
 WHEEL_DIAMETER = 3.25          # inches
 DRIVE_GEAR_RATIO = 1.0         # wheel turns per motor turn (external gearing)
 TRACK_WIDTH = 11.5             # inches between left and right wheel contact patches
@@ -82,8 +80,7 @@ FOUR_BAR_KD = 0.02
 FOUR_BAR_TOL_DEG = 3.0
 FOUR_BAR_SETTLE_VEL = 20.0     # deg/s
 FOUR_BAR_SETTLE_MS = 150
-# Position 0 = where the four bar sits when the robot is powered on (start it at the bottom).
-# Disabled by default: read the position off the brain screen, then set real limits and enable.
+
 FOUR_BAR_LIMITS_ENABLED = False
 FOUR_BAR_MIN_DEG = 0.0
 FOUR_BAR_MAX_DEG = 600.0
@@ -293,10 +290,6 @@ class Logger:
 
 # =====================================================================
 # ODOMETRY + SENSOR FUSION
-# Wheel encoders give distance. Heading blends IMU change (98%) with
-# wheel-derived change (2%). If they disagree hard, wheels slipped, so
-# the IMU gets 100%. If the IMU is missing, it falls back to wheels only.
-# Pose convention: heading 0 = +Y, clockwise positive (matches the IMU).
 # =====================================================================
 class Odometry:
     def __init__(self):
@@ -582,8 +575,7 @@ def four_bar_goto(target_deg, timeout_ms=1500, max_power=100):
 
 
 # =====================================================================
-# CLAW  (no pneumatics: motor drives it shut, stall detection ends the move,
-# then a small trickle power keeps the grip)
+# CLAW 
 # =====================================================================
 claw_gripping = False
 
@@ -673,16 +665,8 @@ def autonomous():
     brain.screen.print("Autonomous Running")
     log.start()
 
-    # ---- EXAMPLE ROUTINE: edit distances/angles for your field ----
-    drive_distance(24)
-    claw_close()
-    four_bar_goto(FOUR_BAR_CARRY_DEG)
-    drive_distance(-12)
-    turn_to(90)
-    drive_distance(18)
-    four_bar_goto(0)
-    claw_open()
-    drive_distance(-10)
+    # Put HERE ---
+
     # ---------------------------------------------------------------
 
     log.flush()
